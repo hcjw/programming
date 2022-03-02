@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head_fragment(links)">
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
+<th:block th:replace="${links} ?: _" />
+</head>
+<body>
+	<!-- ヘッダー部分 -->
+	<header xmlns:th="http://www.thymeleaf.org"
+		th:fragment="header_fragment">
+		<form th:action="@{/question}" id="formQuestion" method="post">
+			<input type="hidden" name="dbUserId" th:value="${dbUserId}">
+			<!-- aタグのリンクでフォームをPOST送信 -->
+			<a href="javascript:formQuestion.submit()"><img
+				src="
+				/img/mainLogo.png" id="mainLogo"></a>
+		</form>
+		<div id="header-left">
+			<form th:action="@{/account}" id="formAccount" method="post"
+				class="header-form">
+				<input type="hidden" name="dbUserId" th:value="${dbUserId}">
+				<!-- aタグのリンクでフォームをPOST送信 -->
+				<a href="javascript:formAccount.submit()"><img
+					src="/img/accountLogo.png" id="accountLogo"></a>
+			</form>
+			<form id="logout" class="header-form">
+				<a th:href="@{/login}">ログアウト</a>
+			</form>
+		</div>
+	</header>
+	<!-- フッター部分 -->
+	<footer xmlns:th="http://www.thymeleaf.org"
+		th:fragment="footer_fragment">
+		<section id="footer-section">
+			<div>
+				<p>サイト概要</p>
+				<ul>
+					<li><a href="#">サイトマップ</a></li>
+					<li><a href="#">利用規約</a></li>
+				</ul>
+			</div>
+			<div>
+				<p>SNS</p>
+				<ul>
+					<li><a href="#">Twitter</a></li>
+					<li><a href="#">Instagram</a></li>
+					<li><a href="#">Facebook</a>
+					<li>
+				</ul>
+			</div>
+			<div>
+				<p>ガイド</p>
+				<ul>
+					<li><a href="#">よくある質問</a></li>
+					<li><a href="#">お問い合わせ</a></li>
+				</ul>
+			</div>
+		</section>
+		<P>© 2022 **** Inc.</P>
+	</footer>
+</body>
+</html>

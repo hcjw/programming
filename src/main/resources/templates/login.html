@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ログイン画面</title>
+</head>
+<body style="text-align: center">
+	<h3>ログイン画面</h3>
+	<!-- エラー表示 -->
+	<p th:if="${errorMsg}" th:text="${errorMsg}" style="color: red"></p>
+	<p th:if="${errorMsgIs}" th:text="${errorMsgIs}" style="color: red"></p>
+	<!--  テキストボックス部分 -->
+	<form th:action="@{/questionToLogin}" method="post">
+		<input type="text" name="name" placeholder="ユーザー名"><br><input
+			type="password" name="pass" placeholder="パスワード"><br><br><input type="submit"
+			value="ログイン">
+	</form>
+	<!-- 新規登録部分 -->
+	<form th:action="@{/create}" method="get">
+		<p>初めての方はこちら</p>
+		<input type="submit" value="新規登録">
+	</form>
+</body>
+</html>

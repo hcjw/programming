@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head_fragment(~{::link})">
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/question.css}" />
+<title>プログラミング問題</title>
+</head>
+<body>
+	<section th:replace="common :: header_fragment"></section>
+	<section id="container">
+		<!-- 左カラム -->
+		<section class="leftColumn">
+			<!-- 検索 -->
+			<p th:if="${searchMsg}" th:text="${searchMsg}" style="color: red"></p>
+			<form th:action="@{/questionSearch}" method="post" id="searchForm">
+				<input type="text" placeholder="問題の検索" name="search" id="searchText">
+				<input type="submit" value="検索" th:onclick="changeValue()">
+				<input type="hidden" name="dbUserId" th:value="${dbUserId}">
+			</form>
+			<br>
+			<!-- 一覧表示ボタン -->
+			<form th:action="@{/question}" method="post">
+				<input type="submit" value="一覧表示"> <input type="hidden"
+					name="dbUserId" th:value="${dbUserId}">
+			</form>
+			<br>
+			<!-- ランダムボタン -->
+			<form th:action="@{/questionRandom}" method="post">
+				<input type="submit" value="ランダム表示" id="RandomButton"> <input
+					type="hidden" name="dbUserId" th:value="${dbUserId}">
+			</form>
+			<br>
+			<!-- 問題一覧表示 -->
+			<div th:if="${questions}" id="questionsTitles">
+				<div th:if="${questions}" th:each="obj:${questions}" align="center">
+					<p id="questionsTitle"
+						th:onclick="changeText([[${obj.title}]],[[${obj.question}]],[[${obj.answer}]]);">[[${obj.title}]]</p>
+				</div>
+			</div>
+			<div th:if="${qList}" id="questionsTitles">
+				<!-- 問題一覧表示（検索結果） -->
+				<div th:if="${qList}" th:each="obj:${qList}" align="center">
+					<p id="questionsTitle"
+						th:onclick="changeText([[${obj.title}]],[[${obj.question}]],[[${obj.answer}]]);">[[${obj.title}]]</p>
+				</div>
+			</div>
+		</section>
+		<!-- メインカラム -->
+		<section class="mainColumn">
+			<h4>プログラミング問題</h4>
+			<!-- エラー表示 -->
+			<p th:if="${errorMsg}" th:text="${errorMsg}" style="color: red"></p>
+			<p th:if="${selectMsg}" th:text="${selectMsg}" style="color: blue"
+				id="selectMsg"></p>
+			<p th:if="${answerErrorMsg}" th:text="${answerErrorMsg}"
+				style="color: red" id="answerErrorMsg"></p>
+			<!-- タイトル -->
+			<p id="questionTitle">[[${dbTitle}]]</p>
+			<!-- 問題表示 -->
+			<textarea readonly name="question" rows="5" cols="60"
+				id="questionTextarea">[[${dbQuestion}]]</textarea>
+			<br>
+			<!-- 解答欄 -->
+			<form th:action="@{/questionResult}" method="post">
+				<input type="text" name="answer"> <input type="hidden"
+					name="dbAnswer" th:value="${dbAnswer}" id="answer"> <input
+					type="hidden" name="dbUserId" th:value="${dbUserId}"> <input
+					type="submit" value="解答">
+			</form>
+			<br>
+			<!-- 解答表示 -->
+			<p>解答がわからない場合はこちらをクリック</p>
+			<input type="button" value="解答を表示" th:onclick="showAnswer();">
+			<p id="showAnswerText" style="color: red"></p>
+		</section>
+	</section>
+	<section th:replace="common :: footer_fragment"></section>
+	<!-- Javascript記述部分 -->
+	<script th:inline="javascript" type="text/javascript">
+		//タイトルのテキスト
+		let questionTitle = document.getElementById('questionTitle');
+		//問題のテキストエリア
+		let questionTextarea = document.getElementById('questionTextarea');
+		//解答のテキストボックス
+		let answer = document.getElementById('answer');
+		//選択を促すメッセージ
+		let selectMsg = document.getElementById('selectMsg');
+		//解答欄が空白の時のエラーメッセージ
+		let answerErrorMsg = document.getElementById('answerErrorMsg');
+		//解答の表示するテキスト
+		let showAnswerText = document.getElementById('showAnswerText');
+
+		//問題一覧をクリック時に対象の問題を表示
+		function changeText(objTitle, objQuestion, objAnswer) {
+			questionTitle.innerHTML = objTitle;
+			questionTextarea.innerHTML = objQuestion;
+			answer.value = objAnswer;
+			//選択を促すメッセージを非表示
+			if (selectMsg) {
+				selectMsg.remove();
+			}
+			//解答表示の処理
+			showAnswerText.value = objAnswer;
+			//解答の表示を非表示にする
+			showAnswerText.innerHTML = "";
+			//解答エラーのメッセージを非表示
+			answerErrorMsg.innerHTML = "";
+		}
+
+		//検索テキストを空文字に変える
+		let searchText = document.getElementById('searchText');
+		function changeValue() {
+			if (searchText.value === "") {
+				searchText.value = " ";
+			}
+		}
+
+		//問題の答えを表示		
+		function showAnswer() {
+			//問題文が表示されている場合
+			if (questionTextarea.innerHTML !== "") {
+				showAnswerText.innerHTML = "答え：" + showAnswerText.value;
+			} else { //問題が選択されていない場合
+				showAnswerText.innerHTML = "左の欄から問題を選択して下さい。";
+			}
+		}
+	</script>
+</body>
+</html>

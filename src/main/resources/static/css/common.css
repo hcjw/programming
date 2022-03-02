@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+}
+
+header {
+	background-color: #6799ea;
+	padding: 1%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#header-left {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.header-form {
+	width: 18%;
+	height: 13%;
+	display: flex;
+	justify-content: center;
+}
+
+#mainLogo {
+	width: 10%;
+	height: 10%;
+}
+
+#accountLogo {
+	width: 50%;
+	height: 80%;
+	padding-bottom: 3%;
+}
+
+#formAccount>a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+a {
+	text-decoration: none;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	text-align: left;
+}
+
+footer {
+	background-color: #6799ea;
+	text-align: center;
+	padding: 3% 0% 2% 0%;
+}
+
+#footer-section {
+	display: flex;
+	justify-content: center;
+}
+
+#footer-section>div {
+	padding-left: 5%;
+	padding-right: 5%;
+}

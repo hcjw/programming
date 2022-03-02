@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head_fragment(~{::link})">
+<link rel="stylesheet" type="text/css" th:href="@{/css/editAccount.css}" />
+<meta charset="UTF-8">
+<title>アカウント編集画面</title>
+</head>
+<body>
+	<section th:replace="common :: header_fragment"></section>
+	<section id="container">
+		<h4>アカウント編集</h4>
+		<!-- エラー表示 -->
+		<div th:if="${errorList}" th:each="errorMsg : ${errorList}">
+			<p th:text="${errorMsg}" style="color: red"></p>
+		</div>
+		<!-- テキストボックス部分 -->
+		<form th:action="@{/accountUpdate}" method="post">
+			<p>ユーザー名：[[${dbName}]]</p>
+			<p style="color: grey">半角英数字1~10文字</p>
+			<input type="text" name="name"> <br>
+
+			<p>パスワード：********</p>
+			<p style="color: grey">半角英数字記号8~20文字</p>
+			<p th:if="${errorOverLapping}" th:text="${errorOverLapping}"
+				style="color: red"></p>
+			<input type="text" name="pass"> <br>
+
+			<p>メールアドレス：[[${dbMail}]]</p>
+			<p style="color: grey">半角英数字記号1~256文字</p>
+			<input type="text" name="mail"> <input type="hidden"
+				name="dbUserId" th:value="${dbUserId}"><br> <br>
+			<!-- ボタン部分 -->
+			<input type="submit" value="保存">
+		</form>
+		<br>
+		<form th:action="@{/account}" method="post">
+			<input type="hidden" name="dbUserId" th:value="${dbUserId}">
+			<input type="submit" value="戻る">
+		</form>
+	</section>
+	<section th:replace="common :: footer_fragment"></section>
+</body>
+</html>

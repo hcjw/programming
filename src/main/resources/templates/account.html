@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head_fragment(~{::link})">
+<link rel="stylesheet" type="text/css" th:href="@{/css/account.css}" />
+<meta charset="UTF-8">
+<title>アカウント画面</title>
+</head>
+<body>
+	<section th:replace="common :: header_fragment"></section>
+	<section id="container">
+		<!-- アカウント情報の表示 -->
+		<div id="containerTop">
+			<h4>アカウント情報</h4>
+			<p th:if="${updateCompleteMsg}" th:text="${updateCompleteMsg}"
+				style="color: red"></p>
+			<p>ユーザー名：[[${dbName}]]</p>
+			<br>
+			<p>パスワード：********</p>
+			<br>
+			<p>メールアドレス：[[${dbMail}]]</p>
+			<br>
+			<!-- ボタン部分 -->
+			<div id="accountEditButton">
+				<form th:action="@{/editAccount}" method="post">
+					<input type="hidden" name="dbUserId" th:value="${dbUserId}">
+					<input type="submit" value="更新">
+				</form>
+				<form th:action="@{/delete}" method="post">
+					<input type="hidden" name="dbUserId" th:value="${dbUserId}">
+					<input type="submit" value="削除">
+				</form>
+			</div>
+			<br>
+			<form th:action="@{/question}" method="post">
+				<input type="hidden" name="dbUserId" th:value="${dbUserId}">
+				<input type="submit" value="戻る">
+			</form>
+		</div>
+		<!-- ユーザーの問題編集 -->
+		<div id="containerBottom">
+			<!-- ユーザーの問題一覧 -->
+			<div th:if="${myQuestions}" id="userQuestions">
+				<p>[[${dbName}]]さんの問題一覧</p>
+				<!-- 問題の情報を取得 -->
+				<div th:each="obj:${myQuestions}" align="center" id="userQuestion">
+					<!-- クリックした問題の情報を取得 -->
+					<p
+						th:onclick="changeText([[${obj.id}]],[[${obj.title}]],[[${obj.question}]],[[${obj.answer}]]);">[[${obj.title}]]</p>
+				</div>
+			</div>
+			<div>
+				<p>問題の編集</p>
+				<!-- エラー表示 -->
+				<p th:if="${updateMsg}" th:text="${updateMsg}" style="color: blue"></p>
+				<p th:if="${deleteMsg}" th:text="${deleteMsg}" style="color: red"></p>
+				<p th:if="${errorMsg}" th:text="${errorMsg}" style="color: red"></p>
+				<div th:if="${errorListUpdate}"
+					th:each="errorMsg : ${errorListUpdate}">
+					<p th:text="${errorMsg}" style="color: red"></p>
+				</div>
+				<!-- テキストボックス部分 -->
+				<form th:action="@{/questionUpdate}" method="post" id="editForm">
+					<!-- タイトル部分 -->
+					タイトル<br> <input type="text" name="title" id="questionTitle"
+						value=""><br>
+					<!-- 問題文 -->
+					問題文<br>
+					<textarea name="question" rows="5" cols="60" id="questionTextarea"></textarea>
+					<br>
+					<!-- 解答部分 -->
+					解答<br> <input type="text" name="answer" id="answer" value=""><br>
+					<input type="hidden" name="id" value="" id="questionId"> <input
+						type="hidden" name="dbUserId" th:value="${dbUserId}"> <br>
+					<input type="submit" value="更新">
+					<input type="submit" value="削除" onclick="changeForm()">
+				</form>
+			</div>
+			<div>
+				<p>新しい問題を追加</p>
+				<!-- エラー表示 -->
+				<p th:if="${createMsg}" th:text="${createMsg}" style="color: blue"></p>
+				<div th:if="${errorListCreate}"
+					th:each="errorMsg : ${errorListCreate}">
+					<p th:text="${errorMsg}" style="color: red"></p>
+				</div>
+				<!-- テキストボックス部分 -->
+				<form th:action="@{/questionCreate}" method="post">
+					<!-- タイトル部分 -->
+					タイトル<br> <input type="text" name="title"><br>
+					<!-- 問題文 -->
+					問題文<br>
+					<textarea name="question" rows="5" cols="60"></textarea>
+					<br>
+					<!-- 解答部分 -->
+					解答<br> <input type="text" name="answer"><br> <input
+						type="hidden" name="dbUserId" th:value="${dbUserId}"> <br>
+					<input type="submit" value="追加">
+				</form>
+			</div>
+		</div>
+	</section>
+	<section th:replace="common :: footer_fragment"></section>
+	<!-- javaScript記述部分 -->
+	<script th:inline="javascript" type="text/javascript">
+		//問題の編集部分　タイトルのinputタグ
+		let questionTitle = document.getElementById('questionTitle');
+		//問題の編集部分　問題文のinputタグ
+		let questionTextarea = document.getElementById('questionTextarea');	
+		//問題の編集部分　解答部分のinputタグ
+		let answer = document.getElementById('answer');
+		////問題の編集部分　解答部分のinputタグ
+		let questionId = document.getElementById('questionId');
+		//更新、削除のフォームタグ
+		let editForm = document.getElementById('editForm');
+
+		//問題一覧をクリックした時
+		function changeText(objId, objTitle, objQuestion, objAnswer) {
+			//hiddenで送信する識別IDを設定
+			questionId.value = objId;
+			//問題の編集部分　タイトルのinputタグにクリックした問題のタイトルを表示
+			questionTitle.value = objTitle;
+			//問題の編集部分　問題文のinputタグにクリックした問題文を表示
+			questionTextarea.innerHTML = objQuestion;
+			//問題の編集部分　解答のinputタグにクリックした問題の解答を表示
+			answer.value = objAnswer;
+		}
+		//削除ボタンをクリックした場合、フォームの送信先を変更
+		function changeForm() {
+			editForm.action = 'questionDelete';
+		}
+	</script>
+</body>
+</html>

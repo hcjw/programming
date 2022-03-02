@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+#containerTop {
+	text-align: center;
+	padding: 3% 0% 5% 0%;
+}
+
+#containerBottom {
+	background-color: #ced9e4;
+	display: flex;
+	justify-content: space-around;
+	padding: 3% 0% 3% 0%;
+}
+
+#accountEditButton {
+	display: flex;
+	justify-content: center;	
+}
+
+#accountEditButton > form {
+	margin-left: 0.8%;
+	margin-right: 0.8%;
+}
+
+#userQuestions {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+#userQuestion {
+	border-bottom: solid 1px #6799ea;
+}
+
+#updateButtonQuestion {
+	margin-right: 3%;
+}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>アカウント作成完了</title>
+</head>
+<body style="text-align: center">
+	<h4>アカウント作成完了</h4>
+	<p>あなたのアカウント情報</p>
+	<p>ユーザー名：[[${name}]]</p>
+	<p>パスワード：********</p>
+	<p>メールアドレス：[[${mail}]]</p>
+	<form th:action="@{/login}" method="get">
+		<input type="submit" value="ログイン画面へ">
+	</form>
+</body>
+</html>

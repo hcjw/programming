@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head_fragment(~{::link})">
+<link rel="stylesheet" type="text/css" th:href="@{/css/delete.css}" />
+<meta charset="UTF-8">
+<title>アカウントの削除</title>
+</head>
+<body>
+	<section th:replace="common :: header_fragment"></section>
+	<section id="container">
+		<h4>アカウントの削除</h4>
+		<p style="color: red">本当に削除してもよろしいですか？</p>
+		<p>ユーザー名：[[${dbName}]]</p>
+		<p>パスワード：********</p>
+		<p>メールアドレス：[[${dbMail}]]</p>
+		<!-- ボタン部分 -->
+		<form th:action="@{/accountDelete}" method="post">
+			<input type="hidden" name="dbUserId" th:value="${dbUserId}"><br>
+			<input type="submit" value="削除">
+		</form>
+		<br>
+		<form th:action="@{/account}" method="post">
+			<input type="hidden" name="dbUserId" th:value="${dbUserId}">
+			<input type="submit" value="戻る">
+		</form>
+	</section>
+	<section th:replace="common :: footer_fragment"></section>
+</body>
+</html>

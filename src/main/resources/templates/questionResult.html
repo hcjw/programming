@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head_fragment(~{::link})">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/questionResult.css}" />
+<meta charset="UTF-8">
+<title>判定画面</title>
+</head>
+<body>
+	<section th:replace="common :: header_fragment"></section>
+	<section id="container">
+		<h4>判定結果</h4>
+		<!-- 判定メッセージ表示 -->
+		<p th:if="${judgeMsg}" th:text="${judgeMsg}" style="color: red"></p>
+		<!-- ボタン -->
+		<form th:action="@{/question}" method="post">
+			<input type="hidden" name="dbUserId" th:value="${dbUserId}">
+			<input type="submit" value="戻る">
+		</form>
+	</section>
+	<section th:replace="common :: footer_fragment"></section>
+</body>
+</html>
